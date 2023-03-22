@@ -25,15 +25,22 @@
 
       <div id="package">
         <h1>道具栏</h1><br>
-        <h3>攻击道具：使用后使炸弹的爆炸范围+1格</h3><br>
-        <img src="../assets/attack1.png">数量：
-        <h3 style="margin-top: 20px">辅助：使用后人物移动速度翻一倍</h3><br>
-        <img src="../assets/speed1.png">数量：
+        <h3>攻击道具：使用后增加爆炸范围</h3><br>
+        <el-tooltip class="item" effect="dark" content="爆炸范围+1" placement="top-start">
+          <img src="../assets/attack1.png"width="50px" height="50px">数量：
+        </el-tooltip>
+        <h3 style="margin-top: 20px">辅助：使用后增加人物移动速度</h3><br>
+        <el-tooltip class="item" effect="dark" content="人物速度加一倍" placement="top-start">
+          <img src="../assets/speed1.png" width="50px" height="50px">数量：
+        </el-tooltip>
+
       </div>
       <div id="function">
-        <el-button type="primary" round icon="el-icon-s-home" style="margin-right: 50px" @click="createRoom">开始游戏</el-button>
-        <el-button type="primary"round  icon="el-icon-s-home" style="margin-right: 50px" @click="createRoom">准备游戏</el-button>
-        <el-button type="danger" round icon="el-icon-circle-plus">退出房间</el-button>
+        <el-button type="primary" round icon="el-icon-s-home" style="margin-right: 50px" v-if="isHolder==true" @click="begin()">开始游戏</el-button>
+
+        <el-button type="primary"round  icon="el-icon-check" style="margin-right: 50px" v-if="isHolder==false&&isReady==true" @click="cancelReady()">取消准备</el-button>
+        <el-button type="primary"round  icon="el-icon-more" style="margin-right: 50px" v-if="isHolder==false&&isReady==false" @click="ready()">准备游戏</el-button>
+        <el-button type="danger" round  icon="el-icon-circle-close" @click="quitRoom()">退出房间</el-button>
       </div>
     </div>
   </div>
@@ -41,7 +48,30 @@
 
 <script>
 export default {
-  name: "GameRoom.vue"
+  name: "GameRoom.vue",
+  data(){
+    return{
+      isHolder:false,
+      isReady:false,
+    }
+  },
+  methods:{
+    begin(){
+
+    },
+    ready(){
+      this.isReady=true
+    },
+    cancelReady(){
+      this.isReady=false;
+    },
+    quitRoom() {
+      this.$router.push('/gameDetail')
+    }
+  },
+  created() {
+
+  }
 }
 </script>
 

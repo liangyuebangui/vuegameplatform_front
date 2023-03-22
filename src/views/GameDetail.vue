@@ -6,7 +6,7 @@
         <img src="../assets/ppt1.jpg" style="width: 55%;height: 300px;margin-top: 20px"><br>
         <el-button-group style="margin-top: 20px">
           <el-button type="primary" icon="el-icon-s-home" style="margin-right: 50px" @click="createRoom">创建房间</el-button>
-          <el-button type="primary" icon="el-icon-circle-plus">加入房间</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus" @click="isJoin=true;roomNumber=''">加入房间</el-button>
         </el-button-group>
         <div id="introduce">
           <h2>游戏介绍</h2>
@@ -28,20 +28,48 @@
     <div id="worldChat">
       <h1 >世界聊天</h1>
     </div>
+
+
+
+
+
+    <el-dialog title="加入房间" :visible.sync="isJoin" width="20%" align="left" :close-on-click-modal="false">
+      房间号：<el-input  oninput ="value=value.replace(/[^\d]/g,'')" v-model.number="roomNumber"></el-input>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="isJoin=false">取 消</el-button>
+    <el-button type="primary" @click="joinRoom()">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: "GameDetail.vue",
   data(){
     return{
-
+      isJoin:false,
+      roomNumber:'',
+      userId:10086,
     }
   },
   methods:{
     createRoom(){
+      this.$axios({
+        url:"/api/room/createRoom",
+        method:"POST",
+        data:{
+          userId:this.userId
+        },
+      }).catch(error=>{
+        console.log(error);
+      });
       this.$router.push('gameRoom')
+    },
+    joinRoom(){
+      router.push('/gameRoom')
     }
   },
   created() {

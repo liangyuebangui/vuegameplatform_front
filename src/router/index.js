@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/gameDetail',
     name: 'GameDetail',
     component: GameDetail
   },
